@@ -11,7 +11,3 @@
 @interface AIFServiceWeibo : AIFService <AIFServiceProtocal>
 
 @end
-
-@interface WeiboSignatureGenerator : NSObject <AIFSignatureGenerator>
-
-@end

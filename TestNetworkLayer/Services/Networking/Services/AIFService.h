@@ -27,6 +27,10 @@
 @property (nonatomic, readonly) NSString *onlinePrivateKey;
 @property (nonatomic, readonly) NSString *offlinePrivateKey;
 
+@property (nonatomic, readonly) NSDictionary *commonParamsDictionary;
+
+- (NSString *)signatureWithParams:(NSDictionary *)params;
+
 @end
 
 @interface AIFService : NSObject
@@ -35,10 +39,7 @@
 @property (nonatomic, strong, readonly) NSString *privateKey;
 @property (nonatomic, strong, readonly) NSString *apiBaseUrl;
 @property (nonatomic, strong, readonly) NSString *apiVersion;
-@property (nonatomic, strong, readonly) NSDictionary *commonParamsDictionary;
 
 @property (nonatomic, weak) id<AIFServiceProtocal> child;
-@property (nonatomic, weak) id<AIFCommonParamsGenerator> commonParamsGenerator;
-@property (nonatomic, weak) id<AIFSignatureGenerator> signatureGenerator;
 
 @end

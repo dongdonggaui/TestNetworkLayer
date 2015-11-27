@@ -24,7 +24,7 @@
 
 - (NSString *)onlineApiVersion
 {
-    return @"";
+    return @"/2";
 }
 
 - (NSString *)onlinePrivateKey
@@ -57,9 +57,10 @@
     return self.onlinePublicKey;
 }
 
-@end
-
-@implementation WeiboSignatureGenerator
+- (NSDictionary *)commonParamsDictionary
+{
+    return nil;
+}
 
 - (NSString *)signatureWithParams:(NSDictionary *)params
 {

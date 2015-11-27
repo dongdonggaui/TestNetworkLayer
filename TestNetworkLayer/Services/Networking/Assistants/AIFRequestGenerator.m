@@ -51,21 +51,21 @@
 
 - (NSURLRequest *)generateGETRequestWithServiceIdentifier:(NSString *)serviceIdentifier requestParams:(NSDictionary *)requestParams methodName:(NSString *)methodName
 {
-    AIFService *service = [[AIFServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
+    AIFService<AIFServiceProtocal> *service = [[AIFServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
     
 //    NSMutableDictionary *sigParams = [NSMutableDictionary dictionaryWithDictionary:requestParams];
 //    sigParams[@"api_key"] = service.publicKey;
 //    NSString *signature = [AIFSignatureGenerator signGetWithSigParams:sigParams methodName:methodName apiVersion:service.apiVersion privateKey:service.privateKey publicKey:service.publicKey];
     
     NSMutableDictionary *allParams = nil;
-    if (service.commonParamsDictionary) {
+    if ([service commonParamsDictionary]) {
         allParams = [NSMutableDictionary dictionaryWithDictionary:service.commonParamsDictionary];
     }
     else {
         allParams = [NSMutableDictionary dictionary];
     }
     [allParams addEntriesFromDictionary:requestParams];
-    NSString *signature = [service.signatureGenerator signatureWithParams:allParams];
+    NSString *signature = [service signatureWithParams:allParams];
     if (signature) {
         [allParams setObject:signature forKey:@"sign"];
     }
@@ -94,7 +94,7 @@
     if (requestParams) {
         [allParams addEntriesFromDictionary:requestParams];
     }
-    NSString *signature = [service.signatureGenerator signatureWithParams:allParams];
+    NSString *signature = [service signatureWithParams:allParams];
     [allParams setObject:signature forKey:@"sign"];
     
     NSURLRequest *request = [self.httpRequestSerializer requestWithMethod:@"POST" URLString:urlString parameters:requestParams error:NULL];
@@ -105,7 +105,7 @@
 
 - (NSURLRequest *)generateRestfulGETRequestWithServiceIdentifier:(NSString *)serviceIdentifier requestParams:(NSDictionary *)requestParams methodName:(NSString *)methodName
 {
-    AIFService *service = [[AIFServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
+    AIFService<AIFServiceProtocal> *service = [[AIFServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
     
     NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:[service commonParamsDictionary]];
     [allParams addEntriesFromDictionary:requestParams];
@@ -126,7 +126,7 @@
 
 - (NSURLRequest *)generateRestfulPOSTRequestWithServiceIdentifier:(NSString *)serviceIdentifier requestParams:(NSDictionary *)requestParams methodName:(NSString *)methodName
 {
-    AIFService *service = [[AIFServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
+    AIFService<AIFServiceProtocal> *service = [[AIFServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
     NSDictionary *commonParams = [service commonParamsDictionary];
     NSString *signature = [AIFSignatureGenerator signRestfulPOSTWithApiParams:requestParams commonParams:commonParams methodName:methodName apiVersion:service.apiVersion privateKey:service.privateKey];
     NSString *urlString = [NSString stringWithFormat:@"%@%@/%@?&%@", service.apiBaseUrl, service.apiVersion, methodName, [commonParams AIF_urlParamsStringSignature:NO]];

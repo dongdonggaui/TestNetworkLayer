@@ -21,7 +21,7 @@
 
 - (NSString *)methodName
 {
-    return @"2/statuses/public_timeline.json";
+    return @"statuses/home_timeline.json";
 }
 
 - (NSString *)serviceType
@@ -42,6 +42,9 @@
 
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {
+    if (![data objectForKey:@"access_token"]) {
+        return NO;
+    }
     return YES;
 }
 

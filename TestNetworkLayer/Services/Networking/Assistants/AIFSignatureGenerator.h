@@ -8,12 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol AIFSignatureGenerator <NSObject>
-
-- (NSString *)signatureWithParams:(NSDictionary *)params;
-
-@end
-
 @interface AIFSignatureGenerator : NSObject
 
 + (NSString *)signGetWithSigParams:(NSDictionary *)allParams methodName:(NSString *)methodName apiVersion:(NSString *)apiVersion privateKey:(NSString *)privateKey publicKey:(NSString *)publicKey;

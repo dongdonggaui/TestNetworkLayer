@@ -7,11 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "WeiboStatusListAPIManager.h"
+#import "WBStatusTimelineViewController.h"
 
-@interface ViewController () <RTAPIManagerApiCallBackDelegate, RTAPIManagerParamSourceDelegate>
+@interface ViewController ()
 
-@property (nonatomic, strong) WeiboStatusListAPIManager *weiboStatusListAPIManager;
 
 @end
 
@@ -27,27 +26,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - RTAPIManagerParamSourceDelegate
-- (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
-{
-    if (manager == self.weiboStatusListAPIManager) {
-        return @{@"access_token": [[[NSUserDefaults standardUserDefaults] objectForKey:@"AuthInfo"] objectForKey:@"access_token"]};
-    }
-    
-    return nil;
-}
-
-#pragma mark - RTAPIManagerApiCallBackDelegate
-- (void)managerCallAPIDidSuccess:(RTAPIBaseManager *)manager
-{
-    NSLog(@"success");
-}
-
-- (void)managerCallAPIDidFailed:(RTAPIBaseManager *)manager
-{
-    NSLog(@"failed");
-}
-
 #pragma mark - Event Response
 - (IBAction)fetchListButtonTapped:(UIButton *)sender {
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"AuthInfo"]) {
@@ -58,19 +36,10 @@
         [self showViewController:alert sender:nil];
         return;
     }
-    [self.weiboStatusListAPIManager loadData];
-}
-
-#pragma mark - Getters
-- (WeiboStatusListAPIManager *)weiboStatusListAPIManager
-{
-    if (!_weiboStatusListAPIManager) {
-        _weiboStatusListAPIManager = [[WeiboStatusListAPIManager alloc] init];
-        _weiboStatusListAPIManager.delegate = self;
-        _weiboStatusListAPIManager.paramSource = self;
-    }
     
-    return _weiboStatusListAPIManager;
+    UIViewController *vc = [[WBStatusTimelineViewController alloc] init];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self showViewController:nc sender:nil];
 }
 
 @end

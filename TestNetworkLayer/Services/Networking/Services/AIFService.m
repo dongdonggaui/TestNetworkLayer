@@ -44,13 +44,4 @@
     return self.child.isOnline ? self.child.onlineApiVersion : self.child.offlineApiVersion;
 }
 
-- (NSDictionary *)commonParamsDictionary
-{
-    if (self.commonParamsGenerator) {
-        return [self.commonParamsGenerator commonParamsDictionary];
-    }
-    
-    return nil;
-}
-
 @end
